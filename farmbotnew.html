@@ -26,19 +26,20 @@
     .navbar {
         position: fixed;
         top: 0; 
-        background: #075e2e;
         width: 90%;
-          padding: 1rem 7%;
+        padding: 1rem 7%;
         display: flex;
         align-items: center;
         justify-content: space-between;
         z-index: 1000;
+        background-color: #075e2e;
     }
     .logo a{
         font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
         width: 120px;
         font-size: 25px;
         color: rgb(247, 250, 250);
+        text-shadow: 1px 1px 5px #000000;
     }
     .navbar ul li {
         list-style: none;
@@ -240,6 +241,12 @@
         margin-left: 150px;
         margin-right: auto;
     }
+    #copyright {
+    text-align: center;
+    width: 100%;
+    padding: 50px 0px 50px 0px;
+    margin-top: 50px;
+}
     </style>
 </head>
 <body>
@@ -248,7 +255,7 @@
         <div class="navbar">
             <label class="logo"><a href="">FARMBOT</a></label>
             <ul>
-                <li><a href="#">Home</a></li>
+                <li><a href="#content">Home</a></li>
                 <li>
                     <a href="#">About</a>
                     <ul class="dropdown">
@@ -257,13 +264,15 @@
                         <li><a href="#visi-misi">VisiMisi</a></li>
                     </ul>
                 </li>
-                <li><a href="#">Penanaman</a></li>
+                <li><a href="#">Penanaman</a>
                 <li><a href="#">Penjagaan</a></li>
                 <li><a href="#">Perawatan</a></li>
                 <li><a href="#">Test</a></li>
-                <li><a href="#">Informasi</a></li>
+                <li><a href="#informasi">Informasi</a></li>
             </ul>
-          </div>  
+          </div> 
+          <!--Home-->
+          <section id="Home" >
         <div class="content">
             <h1>Bersama Menuai
                 <br>
@@ -274,6 +283,7 @@
          <button type="button"><span></span>See More</button>
          <button type="button"><span></span>Next</button>
         </div>
+          </section>
     </div>
     </nav>
     <!--untuk home-->
@@ -291,21 +301,6 @@
                         Mari bersama-sama berinovasi dan mengubah cara bertani menjadi lebih mudah, hemat waktu, dan memberikan hasil terbaik untuk masa depan pertanian Indonesia!
                 <br>
             <div>
-                    <h4>Fitur FarmBot</h5>
-                            <img id="tanam" src="https://img.freepik.com/free-vector/support-local-farmers-concept_23-2148592676.jpg?uid=R176365365&ga=GA1.1.440308946.1732712039&semt=ais_hybrid">
-                    <h5>
-                    Panduan Tanam dan Perawatan:</h5>
-                    <p>Langkah-langkah praktis dan mudah dipahami untuk menanam berbagai jenis tanaman, dari persiapan lahan hingga panen.</p>
-                    <h5>Manajemen Keamanan Pertanian:</h5>
-                    <p>Tips dan trik untuk melindungi tanaman dari hama dan penyakit, serta menjaga kualitas hasil panen.</p>
-                    <h5>Tes dan Evaluasi:</h5>
-                    <p>Alat uji sederhana untuk menganalisis kualitas tanah, kebutuhan nutrisi tanaman, dan efisiensi penggunaan bahan bertani.</p>
-                    <img id="pacul" src="https://img.freepik.com/free-vector/young-farmer-carrying-hoe-work-rice-fields_10045-810.jpg?uid=R176365365&ga=GA1.1.440308946.1732712039&semt=ais_hybrid">
-                    <h5>Informasi Terkini:</h5>
-                    <p>Update harga bahan pertanian, rekomendasi pupuk dan bibit, serta solusi alternatif untuk mengurangi biaya tanpa mengorbankan hasil.</p>
-                    <h5>Kalkulator Modal dan Pengelolaan:</h5>
-                    <p>Fitur yang membantu petani menghitung kebutuhan bahan dengan akurat sesuai luas lahan, sehingga mencegah pemborosan atau kekurangan.</p>
-        </div>
         <div id="about-me" class="kolom">
             <img id="me" src="Visi (1).jpg">
         </div>
@@ -313,8 +308,27 @@
             <img id="web" src="Visi.jpg">
         </div>
     </section> 
-    <section id="informasi">
-
+    <section id="Informasi">
+        <div id="informasi" class="kolom">
+            <h4>Fitur FarmBot</h4>
+                    <img id="tanam" src="https://img.freepik.com/free-vector/support-local-farmers-concept_23-2148592676.jpg?uid=R176365365&ga=GA1.1.440308946.1732712039&semt=ais_hybrid">
+            <h5>
+            Panduan Tanam dan Perawatan:</h5>
+            <p>Langkah-langkah praktis dan mudah dipahami untuk menanam berbagai jenis tanaman, dari persiapan lahan hingga panen.</p>
+            <h5>Manajemen Keamanan Pertanian:</h5>
+            <p>Tips dan trik untuk melindungi tanaman dari hama dan penyakit, serta menjaga kualitas hasil panen.</p>
+            <h5>Tes dan Evaluasi:</h5>
+            <p>Alat uji sederhana untuk menganalisis kualitas tanah, kebutuhan nutrisi tanaman, dan efisiensi penggunaan bahan bertani.</p>
+            <img id="pacul" src="https://img.freepik.com/free-vector/young-farmer-carrying-hoe-work-rice-fields_10045-810.jpg?uid=R176365365&ga=GA1.1.440308946.1732712039&semt=ais_hybrid">
+            <h5>Informasi Terkini:</h5>
+            <p>Update harga bahan pertanian, rekomendasi pupuk dan bibit, serta solusi alternatif untuk mengurangi biaya tanpa mengorbankan hasil.</p>
+            <h5>Kalkulator Modal dan Pengelolaan:</h5>
+            <p>Fitur yang membantu petani menghitung kebutuhan bahan dengan akurat sesuai luas lahan, sehingga mencegah pemborosan atau kekurangan.</p>
+    </div>
     </section>
+    <div id="copyright">
+        <div class="wrapper">
+            &copy; 2024. <b>AisyahGadis.</b> Ukl semester ganjil.
+        </div>
 </body>
 </html>
