@@ -1,7 +1,6 @@
 <?php
-include 'config.php'; // Pastikan file koneksi database sudah benar
+include '../database/config.php'; 
 
-// Cek apakah ada ID yang dikirim melalui URL
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
@@ -29,7 +28,7 @@ if (isset($_GET['id'])) {
 
         // Jalankan query
         if (mysqli_query($conn, $sql)) {
-            echo "<script>alert('Data berhasil diperbarui!'); window.location.href='index.php';</script>";
+            echo "<script>alert('Data berhasil diperbarui!'); window.location.href='../database/user.php';</script>";
         } else {
             echo "Error: " . mysqli_error($conn);
         }
@@ -64,7 +63,7 @@ if (isset($_GET['id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>edit</title>
-    <link rel="stylesheet" href="../css/edit1.css">
+    <link rel="stylesheet" href="../../css/edit1.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
@@ -93,6 +92,6 @@ if (isset($_GET['id'])) {
             </div>
             <button type="submit" class="btn">Update</button><br>
         </form>
-            <p>Tidak ada yang perlu diperbarui?<a href="index.php">Kembali</a></p>
+            <p>Tidak ada yang perlu diperbarui?<a href="../database/user.php">Kembali</a></p>
 </body>
 </html>

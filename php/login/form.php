@@ -1,6 +1,6 @@
 <?php
 // $session_start to login or daftar
-include "config.php";
+include "../database/config.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,19 +8,17 @@ include "config.php";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>tampilan login</title>
-    <link rel="stylesheet" href="../css/cssfam.css">
+    <link rel="stylesheet" href="../../css/cssfam.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
 <?php
 session_start();
-include "config.php"; // Pastikan file koneksi ke database sudah benar
+include "../database/config.php"; 
 
 if (isset($_POST['username'])) {
     $username = mysqli_real_escape_string($conn, $_POST['username']);
-    $password = $_POST['password']; // Tidak dienkripsi dulu karena akan diverifikasi
-
-    // Query untuk mencari user berdasarkan username
+    $password = $_POST['password']; 
     $query = mysqli_query($conn, "SELECT * FROM user WHERE username='$username'");
 
     if ($query && mysqli_num_rows($query) > 0) {
@@ -39,7 +37,7 @@ if (isset($_POST['username'])) {
 }
 ?>
     <div class="wrapper">
-        <form action="">
+        <form action="../tampilan/farmbot.php">
             <h1>Login</h1>
             <div class="input-box">
                 <input type="text" placeholder="Username"
@@ -51,7 +49,7 @@ if (isset($_POST['username'])) {
                 required>
                 <i class='bx bxs-lock-alt'></i><br><br>
             </div> 
-                <a href="../html/farmbot.php"><button type="submit" class="btn">Login</a></button>
+                <button type="submit" class="btn">Login</a></button>
             <div class="register-link">
                 <p>Tidak punya akun? 
                     <a href="daftar.php">Daftar</a></p>
