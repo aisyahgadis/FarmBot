@@ -2,7 +2,7 @@
 include '../database/config.php';
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    $sql = "DELETE FROM rawat WHERE id=$id";
+    $sql = "DELETE FROM rawat WHERE id_rawat=$id";
     if ($conn->query($sql) === TRUE) {
         header("Location: ../database/radmin.php");
         exit();

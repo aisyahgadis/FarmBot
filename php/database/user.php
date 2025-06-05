@@ -85,6 +85,7 @@ include 'config.php';
         <tr>
             <th>Id</th>
             <th>Nama</th>
+            <th>Username</th>
             <th>Tanggal Lahir</th>
             <th>No Handphone</th>
             <th>Email</th>
@@ -101,6 +102,7 @@ include 'config.php';
                 echo "<tr>
                     <td>{$row['id_user']}</td>
                     <td>{$row['nama']}</td>
+                    <td>{$row['username']}</td>
                     <td>{$row['tanggal_lahir']}</td>
                     <td>{$row['no_handphone']}</td>
                     <td>{$row['email']}</td>
@@ -111,7 +113,7 @@ include 'config.php';
                 </tr>";
             }
         } else {
-            echo "<tr><td colspan='7'>Tidak ada data</td></tr>";
+            echo "<tr><td colspan='8'>Tidak ada data</td></tr>";
         }
 
         // **4. Tutup Koneksi**

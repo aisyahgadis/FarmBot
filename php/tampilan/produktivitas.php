@@ -1,3 +1,53 @@
+<?php
+    session_start();
+    include '../database/config.php';
+
+    $produktivitas_kg_ha = 0;
+    $produktivitas_ton_ha = 0;
+
+    if (isset($_POST['hitung'])) {
+        $luas_ubin = isset($_POST['luas_ubin']) ? floatval($_POST['luas_ubin']) : 0;
+        $hasil_panen = isset($_POST['hasil_panen']) ? floatval($_POST['hasil_panen']) : 0;
+
+        if ($luas_ubin > 0) {
+            $produktivitas_kg_ha = ($hasil_panen / $luas_ubin) * 10000;
+            $produktivitas_ton_ha = $produktivitas_kg_ha / 1000;
+            echo "<script>alert('Berhasil dihitung');</script>";
+        } else {
+            echo "<script>alert('Luas ubin tidak boleh nol!');</script>";
+        }
+    }
+
+    if (isset($_POST['simpan'])) {
+        $user_id = $_SESSION['userweb']['id_user'];
+        $luas_ubin = floatval($_POST['luas_ubin']);
+        $hasil_panen = floatval($_POST['hasil_panen']);
+        $produktivitas_kg_ha = floatval($_POST['produktivitas_kg_ha']);
+        $produktivitas_ton_ha = floatval($_POST['produktivitas_ton_ha']);
+
+        $insert = "INSERT INTO produktivitas (id_user, luas_ubin, hasil_panen, produktivitas_kg_ha, produktivitas_ton_ha) 
+                VALUES (?, ?, ?, ?, ?)";
+
+        $stmt = $conn->prepare($insert);
+
+        if (!$stmt) {
+            die("SQL Error: " . $conn->error);
+        }
+
+        $stmt->bind_param("idddd", $user_id, $luas_ubin, $hasil_panen, $produktivitas_kg_ha, $produktivitas_ton_ha);
+
+        if ($stmt->execute()) {
+            echo "<script>alert('Berhasil disimpan.');</script>";
+        } else {
+            echo "Error simpan data: " . $stmt->error;
+        }
+
+        $stmt->close();
+    }
+
+    $conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -172,9 +222,6 @@
         .icer label[for="vs"] {
             margin-left: 30%;
         }
-        .icer button[type=button] {
-            margin-left: 90%;
-        }
         h6 {
             font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
             font-weight: 800;
@@ -230,7 +277,20 @@
         button:hover {
             border: none;
         }
-        
+        .logout-btn {
+        margin-left: auto;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        padding: 5px 10px;
+        background-color:rgb(204, 204, 2);
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        }
+
+        .logout-btn:hover {
+        background-color:rgb(171, 154, 4);
+        } 
     </style>
 </head>
 <body>
@@ -238,55 +298,15 @@
             <label class="logo"><a href="">FARMBOT</a></label>
             <ul>
                 <li><a href="farmbot.php#content">Home</a></li>
-                <li>
-                    <a href="#">About</a>
-                    <ul class="dropdown">
-                        <li><a href="farmbot.php#about-web">About web</a></li>
-                        <li><a href="farmbot.php#about-me">About me</a></li>
-                        <li><a href="farmbot.php#visi-misi">VisiMisi</a></li>
-                    </ul>
-                </li>
                 <li><a href="#produktivitas">Produktivitas</a></li>
                 <li><a href="perawatan.php">Perawatan</a></li>
                 <li><a href="penjagaan.php">Penjagaan</a></li>
                 <li><a href="farmbot.php#informasi">Informasi</a></li>
+                <a href="../login/logout.php" class="logout-btn">Logout</a>
+                <a href="../login/edit.php" class="logout-btn">Edit</a>
             </ul>
           </div> 
     <section id="penanaman" class="icer">
-        <?php
-            include '../database/config.php'; 
-
-            // echo isset($_POST['hitung']);
-
-            if(isset($_POST['hitung'])) {
-                $luas_ubin = isset($_POST['luas_ubin']) ? $_POST['luas_ubin'] : 0;
-                $hasil_panen = isset($_POST['hasil_panen']) ? $_POST['hasil_panen'] : 0;
-                $produktivitas_kg_ha = ($hasil_panen / $luas_ubin) * 10000; // 1 hektar = 10,000 m²
-                $produktivitas_ton_ha = $produktivitas_kg_ha / 1000; // Konversi ke ton per hektar
-
-                if ($produktivitas_kg_ha && $produktivitas_ton_ha) {
-                    echo "<script>alert('Berhasil Dihitung')</script>";
-                } else {
-                    echo "Error Perhitungan"; 
-                }
-            }
-
-            if (isset($_POST['simpan'])) {
-                $luas_ubin = $_POST['luas_ubin'];
-                $hasil_panen = $_POST['hasil_panen'];
-                $produktivitas_kg_ha = $_POST['produktivitas_kg_ha']; // 1 hektar = 10,000 m²
-                $produktivitas_ton_ha = $_POST['produktivitas_ton_ha']; // Konversi ke ton per hektar
-
-                $sql = "INSERT INTO produktivitas (luas_ubin, hasil_panen, produktivitas_kg_ha, produktivitas_ton_ha) 
-                        VALUES ('$luas_ubin', '$hasil_panen', '$produktivitas_kg_ha', '$produktivitas_ton_ha')";
-
-                if ($conn->query($sql) === TRUE) {
-                    echo "<script>alert('Berhasil Disimpan')</script>";
-                } else {
-                    echo "Error: " . $sql . "<br>" . $conn->error; 
-                }
-            }
-        ?>
         <div id="produktivitas" >
             <h2>Simulasi Budidaya Tanaman</h2>
             <form action="./produktivitas.php" method="post" id="hitung">

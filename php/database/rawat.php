@@ -84,6 +84,7 @@ include 'config.php';
         <tr>
             <th>Id perawatan</th>
             <th>id user</th>
+            <th>id rawat</th>
             <th>nama tanaman</th>
             <th>cara perawatan</th>
             <th>Aksi</th>
@@ -98,6 +99,7 @@ include 'config.php';
                 echo "<tr>
                     <td>{$row['id_perawatan']}</td>
                     <td>{$row['id_user']}</td>
+                    <td>{$row['id_rawat']}</td>
                     <td>{$row['nama_tanaman']}</td>
                     <td>{$row['cara_perawatan']}</td>
                     <td>
@@ -107,7 +109,7 @@ include 'config.php';
                 </tr>";
             }
         } else {
-            echo "<tr><td colspan='7'>Tidak ada data</td></tr>";
+            echo "<tr><td colspan='8'>Tidak ada data</td></tr>";
         }
         $conn->close();
         ?>

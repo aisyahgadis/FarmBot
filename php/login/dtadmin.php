@@ -2,7 +2,7 @@
 include '../database/config.php';
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    $sql = "DELETE FROM jaga WHERE id=$id";
+    $sql = "DELETE FROM jaga WHERE id_jaga=$id";
     if ($conn->query($sql) === TRUE) {
         header("Location: ../database/jadmin.php");
         exit();

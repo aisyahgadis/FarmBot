@@ -1,5 +1,11 @@
 <?php
-include '../database/config.php'; 
+session_start(); 
+include '../database/config.php';
+
+if (!isset($_SESSION['userweb'])) {
+    header("Location: ../tampilan/formhome.php");
+    exit();
+}
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
@@ -10,16 +16,19 @@ if (isset($_GET['id'])) {
     //  Ambil data dari form dengan validasi
     $ID = isset($_POST['id_user']) ? $_POST['id_user'] : '';
     $nama = isset($_POST['nama']) ? $_POST['nama'] : '';
+    $username = isset($_POST['username']) ? $_POST['username'] : '';
     $tanggal_lahir = isset($_POST['tanggal_lahir']) ? $_POST['tanggal_lahir'] : '';
     $no_handphone = isset($_POST['no_handphone']) ? $_POST['no_handphone'] : '';
     $email = isset ($_POST['email'])? $_POST['email'] : '';
     $pass = isset($_POST['password']) ? $_POST['password'] : '';
+    }
     
     // Periksa apakah semua variabel ada sebelum update
-    if (!empty($nama) && !empty($tanggal_lahir) && !empty($no_handphone) && !empty($email) && !empty($pass)) {
+    if (!empty($nama) && !empty($username) && !empty($tanggal_lahir) && !empty($no_handphone) && !empty($email) && !empty($pass)) {
         // Query UPDATE
         $sql = "UPDATE userweb SET 
-                    nama = '$nama', 
+                    nama = '$nama',
+                    username = '$username', 
                     tanggal_lahir = '$tanggal_lahir',
                     no_handphone = '$no_handphone',
                     email = '$email',
@@ -35,26 +44,6 @@ if (isset($_GET['id'])) {
     } else {
         echo "Error: Ada data yang kosong. Pastikan semua field terisi!";
     }
-}
-
-
-    // Query untuk mengambil data user berdasarkan ID
-    $sql = "SELECT * FROM userweb WHERE id_user = '$id'";
-    $result = mysqli_query($conn, $sql);
-
-    // Debug: Cek apakah query berhasil
-    if (!$result) {
-        die("Query error: " . mysqli_error($conn));
-    }
-
-    // Debug: Cek apakah ada data yang ditemukan
-    if (mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-    } else {
-        die("Error: Data pengguna tidak ditemukan di database!");
-    }
-} else {
-    die("Error: ID tidak valid atau tidak diberikan!");
 }
 ?>
 <!DOCTYPE html>
@@ -73,6 +62,10 @@ if (isset($_GET['id'])) {
             <input type="hidden" name="id_user" value="<?php echo isset($row['id_user']) ? htmlspecialchars($row['id_user']) : ''; ?>">
             <div class="input-box">
                 Nama: <input type="text" name="nama" value="<?php echo isset($row['nama']) ? htmlspecialchars($row['nama']) : ''; ?>" required><br><br>
+                <i class='bx bxs-user'></i><br><br>
+            </div>
+            <div class="input-box">
+                Username: <input type="text" name="nama" value="<?php echo isset($row['username']) ? htmlspecialchars($row['username']) : ''; ?>" required><br><br>
                 <i class='bx bxs-user'></i><br><br>
             </div>
             <div class="input-box">

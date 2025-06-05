@@ -467,21 +467,6 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
-        .logout-btn {
-        margin-left: auto;
-        color: white;
-        text-decoration: none;
-        font-weight: bold;
-        padding: 5px 10px;
-        background-color:rgb(204, 204, 2);
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-        }
-
-        .logout-btn:hover {
-        background-color:rgb(171, 154, 4);
-        }
-
     </style>
 </head>
 <body>
@@ -490,16 +475,18 @@
     <nav>
     <div class="banner">
         <div class="navbar">
-
-            <label class="logo"><a href="">FARMBOT</a></label>
+            <label class="logo"><a href=""> FARMBOT</a></label>
             <ul>
                 <li><a href="#Home">Home</a></li>
-                <li><a href="produktivitas.php">Produktivitas</a></li>
-                <li><a href="perawatan.php">Perawatan</a></li>
-                <li><a href="penjagaan.php">Penjagaan</a></li>
+                <li>
+                    <a href="#">About</a>
+                    <ul class="dropdown">
+                        <li><a href="#about-web">About web</a></li>
+                        <li><a href="#about-me">About me</a></li>
+                        <li><a href="#visi-misi">VisiMisi</a></li>
+                    </ul>
+                </li>
                 <li><a href="#informasi">Informasi</a></li>
-                <a href="../login/logout.php" class="logout-btn">Logout</a>
-                <a href="../login/edit.php" class="logout-btn">Edit</a>
             </ul>
           </div> 
           <!--Home-->
@@ -511,11 +498,58 @@
                     <p>Selamat datang di FarmBot,</p>
                     <p>Ruang digital yang dirancang khusus untuk Anda,</p>
                     <p> para pecinta pertanian dan penggiat agribisnis</p>
+                <a href="tadmin.php"><button type="button"><span></span>Admin</a></button>
+                <a href="../login/form.php"><button type="button"><span></span>Register</a></button>
                 </div>
           </section>
     </div>
     </nav>
-
+    <!--untukabout-->
+    <section id="About">
+        <div id="about-web" class="kolom1">
+            <br>
+            <h2>Website Pertanian</h2>
+            <h3>Hi User FarmBot!!</h3>
+            <img id="tani" src="../../img/gadis.png">
+                    <p> Selamat datang di website saya yang bernama FarmBot. Saya akan menjadikan website ini sebagai solusi Bertani Pintar, Efisien, dan Inovatif untuk para petani modern!
+                        Website ini dirancang khusus untuk membantu petani mengatasi tantangan dalam bercocok tanam, mengelola sumber daya dengan bijak, dan meningkatkan produktivitas hasil pertanian.
+                        FarmBot menghadirkan teknologi terkini seperti sistem otomatisasi, analitik berbasis data, dan panduan personalisasi yang dapat disesuaikan dengan kebutuhan pertanian Anda. Kami percaya bahwa kombinasi antara inovasi dan kearifan lokal dapat menciptakan sistem pertanian yang lebih berkelanjutan, ramah lingkungan, dan menguntungkan.
+                        Mari bersama-sama berinovasi dan mengubah cara bertani menjadi lebih mudah, hemat waktu, dan memberikan hasil terbaik untuk masa depan pertanian Indonesia!
+                    </p>
+                <br>
+            <div>
+                <div id="about-me" class="container">
+                    <img src="../../img/profil.jpg" alt="Profile Picture" class="profile-img">
+                    <h2>About Me</h2>
+                    <div class="info">
+                        <p><strong>Nama:</strong> Aisyah Gadis Safira</p>
+                        <p><strong>TTL:</strong> Lamongan, 7 Januari 2009</p>
+                        <p><strong>Alamat:</strong> Kecamatan. Sambeng, Kabupaten. Lamongan</p>
+                        <p><strong>Kelas:</strong> X SIJA 2</p>
+                        <p><strong>Jurusan:</strong> SIJA</p>
+                        <p><strong>Tema:</strong> Lingkungan dan sumber daya alam</p>
+                    </div>
+                </div>
+                <div id="visi-misi">
+                    <div class="box">
+                        <h2>Visi</h2>
+                        <p>Menjadi platform yang menyediakan simulasi (penanaman, perawatan, dan penjagaan) bertani yang mudah digunakan oleh semua orang dan menyediakan informasi yang akurat terkait bertani.</p>
+                    </div>
+                    <div class="misi">
+                        <h2>Misi</h2>
+                        <ul>
+                            <li><strong>Edukasi dan Informasi</strong><br>
+                                Menyediakan konten yang akurat, terkini, dan mudah dipahami mengenai teknik penanaman, perawatan tanaman, dan penjagaan hasil panen.
+                            </li>
+                            <li><strong>Peningkatan Keterampilan</strong><br>
+                                Membantu petani dan masyarakat umum mengembangkan keterampilan bertani melalui panduan, pelatihan, dan berbagi pengalaman.
+                            </li>
+                            <li><strong>Teknologi Pertanian</strong><br>
+                                Memperkenalkan dan mempromosikan teknologi modern yang mendukung efisiensi dan keberlanjutan pertanian.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
     <section id="informasi"> 
                     <h2>Informasi Seputar Dunia Pertanian</h2>
                     <div class="card-container">

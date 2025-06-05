@@ -82,7 +82,7 @@ include 'config.php';
     <a href="../tampilan/tadmin.php">Masuk Website</a>
     <table>
         <tr>
-            <th>Id</th>
+            <th>Id_rawat</th>
             <th>nama tanaman</th>
             <th>cara perawatan</th>
             <th>Aksi</th>
@@ -91,16 +91,21 @@ include 'config.php';
         <?php
         $sql = "SELECT * FROM rawat";
         $result = $conn->query($sql);
+         
+        $query = "Select
+        id_jaga,
+        n
+        ";
 
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 echo "<tr>
-                    <td>{$row['id']}</td>
+                    <td>{$row['id_rawat']}</td>
                     <td>{$row['nama_tanaman']}</td>
                     <td>{$row['cara_perawatan']}</td>
                     <td>
-                        <a href='../login/readmin.php?id={$row['id']}'>Edit</a> |
-                        <a href='../login/dradmin.php?id={$row['id']}' onclick='return confirm(\"Hapus Data ini?\")'>Hapus</a>
+                        <a href='../login/readmin.php?id={$row['id_rawat']}'>Edit</a> |
+                        <a href='../login/dradmin.php?id={$row['id_rawat']}' onclick='return confirm(\"Hapus Data ini?\")'>Hapus</a>
                     </td>
                 </tr>";
             }

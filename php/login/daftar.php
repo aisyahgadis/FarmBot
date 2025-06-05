@@ -3,13 +3,14 @@ include '../database/config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nama = $_POST['nama'];
+    $username = $_POST['username'];
     $tanggal_lahir = $_POST['tanggal_lahir'];
     $no_handphone = $_POST['no_handphone'];
     $email = $_POST['email'];
     $pass = $_POST['password'];
 
-    $sql = "INSERT INTO userweb (nama, tanggal_lahir, no_handphone, email, password)
-    VALUES ('$nama', '$tanggal_lahir', '$no_handphone', '$email', '$pass');";
+    $sql = "INSERT INTO userweb (nama, username, tanggal_lahir, no_handphone, email, password)
+    VALUES ('$nama','$username', '$tanggal_lahir', '$no_handphone', '$email', '$pass');";
     if ($conn->query($sql) === TRUE) {
         header("Location: ../database/index.php");
         exit();
@@ -32,7 +33,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form action="daftar.php" method="POST">
             <h1>Tambah pengguna</h1>
             <div class="input-box">
-                <input type="text" name="nama" placeholder="Username"
+                <input type="text" name="nama" placeholder="nama"
+                required>
+                <i class='bx bxs-user'></i><br><br>
+            </div>
+             <div class="input-box">
+                <input type="text" name="username" placeholder="Username"
                 required>
                 <i class='bx bxs-user'></i><br><br>
             </div>

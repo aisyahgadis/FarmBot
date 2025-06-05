@@ -6,6 +6,356 @@
     <title>FarmBot</title>
     <link rel="stylesheet" href="../../css/admin.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        html {
+            scrollbar-width: smooth;
+        }
+        .banner {
+            width: 100%;
+            height: 100vh;
+            background-image: url("../../img/ukll.jpg");
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+        }
+        .navbar {
+            position: fixed;
+            top: 0; 
+            width: 90%;
+            padding: 1rem 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            background-color:#024d2f;
+        }
+        .logo a{
+            font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
+            width: 120px;
+            font-size: 25px;
+            color: rgb(255, 255, 255);
+            text-shadow: 1px 1px 5px #000000;
+        }
+        .navbar ul li {
+            list-style: none;
+            display: inline-block;
+            margin: 0 20px;
+            position: relative;
+        }
+        .navbar ul li a{
+            font-family: Arial, Helvetica, sans-serif;
+            text-decoration: none;
+            color: rgb(242, 245, 245); 
+            text-transform: uppercase;
+            text-shadow: 2px 2px 4px #000000;
+        }
+        .navbar ul li::after{
+            content: '';
+            height: 3px;
+            width: 0;
+            background: #e2e6e4;
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            transition: 02s;
+        }
+        .navbar ul li:hover::after {
+            width: 100%;
+            text-decoration: underline;
+        }
+        .navbar ul li:hover  .dropdown {
+                display: block;
+        }
+        .navbar ul li .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%; 
+            left: 0;
+            background: #075e2e;
+            padding: 10px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .navbar ul li .dropdown a {
+            display: block;
+            padding: 10px 20px;
+            color: rgb(242, 245, 245); 
+            text-decoration: none;
+            text-shadow: none;
+            white-space: nowrap;
+        }
+        .navbar ul li .dropdown a:hover {
+            background: #04613e;
+        }
+        .content {
+            width: 100%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgb(248, 248, 248);
+            text-align: center;
+        }
+        .content h1 {
+            font-size: 50px;
+            margin-top: 10px;
+            text-shadow: 2px 2px 5px #000000;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        .content p {
+            text-align:center;
+            color: #e2e6e4;
+            line-height: 1.6;
+            margin: 20px auto;
+            font-weight: bold;
+            line-height: 2px;
+            text-shadow: 2px 2px 5px #000000;
+            font-family: 'Times New Roman', Times, serif;
+        }
+        button {
+            width: 100px;
+            padding:  10px 0;
+            text-align: center;
+            margin: 20px;
+            border-radius: 25px ;
+            font-weight: bold;
+            border: 2px solid #024d2f;
+            background-color: transparent;
+            color: rgb(245, 237, 10);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        a{
+            color: rgb(245, 237, 10);
+            text-decoration: none;
+        }
+        span {
+            background: #04613e;
+            height: 100%;
+            width: 0;
+            border-radius: 25px;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            z-index:-1 ;
+            transition: 0.5s;
+        }
+        button:hover span{
+            width: 100%;
+        }
+        button:hover {
+            border: none;
+        }
+        section{
+            margin: auto;
+            margin-bottom: 50px;
+        }
+        section.data {
+            margin-top: 15%;
+        }
+        /* section .data {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        } */
+        footer {
+            background-color: #04613e;
+            color:  #04613e;
+            padding: 20px;
+            text-align: center;
+        }
+        .kolom .deskripsi{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 30px;
+            width: 500px;
+            font-weight: bold;
+            text-align: center;
+            margin-left: 30%;
+        }
+        .kolom {
+            margin-top: 700px;
+        }
+        .kolom:target {
+        display: block;
+        }
+        h2 {
+        font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+        font-weight: 800;
+        font-size: 45px;
+        margin-top: 5%;
+        color: #04613e;
+        width: 100%;  
+        line-height: 50px;
+        text-align: center;
+        }
+        p{
+            font-size: 20px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            text-align: left;
+            color: #170101;
+        }
+        h3{
+            margin-top: -2%;
+            font-size: 20px;
+            text-align: center;
+            font-size: 30px;
+            font-family: Georgia, Times, 'Times New Roman', serif;
+        }
+        h4{
+            margin-bottom: 5%;
+            font-size: 20px;
+            text-align: center;
+            font-size: 30px;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+        h5{
+            font-size: 10px;
+            text-align: left;
+            font-size: 30px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            margin-bottom: 10px;
+        }
+        #fitur p{
+            text-align:justify;
+            line-height: 1.5;
+            margin-top: 5px;
+            
+        }
+        #tani {
+        width: 35%; 
+        height: auto; 
+        float: right; 
+        text-align: right;
+        margin-top: -80px;
+        }  
+        #tanam {
+            width: 35%; 
+            height: auto; 
+            float: left; 
+            text-align: left;
+        } 
+        #pacul {
+            width: 35%; 
+            height: auto; 
+            float: right; 
+            text-align: right;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            margin-top: 150px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            float: left;
+            margin-top: 100px;
+        }
+        .info {
+            text-align: right;
+            margin-left: 200px;
+        }
+        .info p {
+            font-size: 18px;
+        }
+        .info strong {
+            font-weight: bold;
+        }
+        .box {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        width: 40%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        float: left;
+        margin-top: 120px;
+        }
+        .misi {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        width: 40%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        float: right;
+        margin-top: 120px;
+        }
+        #web {
+            width: 80%;
+            height: auto;
+            margin-left: 150px;
+            margin-right: auto;
+        }
+        .box i {
+        margin-left:20%;
+        font-size: 200px;
+        margin-top: 0%;
+        }
+
+        .data-atas,
+        .data-bawah {
+            display: flex;
+            gap: 50px;
+            justify-content: center;
+        }
+
+        .data-atas {
+            margin-bottom: 5%; 
+        }
+
+        .ad {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        width: 40%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        /* float: left;
+        margin-top: 10px;
+        margin-left: 50px; */
+        }
+        .ta {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        width: 40%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        /* float: left;
+        margin-top: 10px;
+        margin-left: 30px */
+        }
+        .ad i {
+        margin-left:20%;
+        font-size: 200px;
+        margin-top: 0%;
+        color:rgb(0, 0, 0);
+        }
+        .ta i {
+        margin-left:20%;
+        font-size: 200px;
+        margin-top: 0%;
+        color: rgb(0, 0, 0);
+        }
+        .h2 data {
+        font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+        font-weight: 800;
+        font-size: 45px;
+        margin-top: 10%;
+        color: #04613e;
+        width: 100%;  
+        line-height: 50px;
+        text-align: center;
+        }
+        #copyright {
+        text-align: center;
+        width: 100%;
+        padding: 50px 0px 50px 0px;
+        margin-top: 50px;
+        }
+    </style>
 </head>
 <body>
     <!--untuk home-->

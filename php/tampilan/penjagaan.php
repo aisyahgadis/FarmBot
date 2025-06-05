@@ -1,9 +1,67 @@
+<?php
+session_start();
+include '../database/config.php';
+
+$nama_hama = '';
+$jenis_tips = '';
+$penangkal = '';
+$id_jaga = '';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cari'])) {
+    $nama_hama = $_POST['nama_hama'] ?? '';
+    $jenis_tips = $_POST['jenis_tips'] ?? '';
+
+    $sql = "SELECT * FROM jaga WHERE nama_hama LIKE ? AND jenis_tips = ? LIMIT 1";
+    $stmt = $conn->prepare($sql);
+
+    $search = "%$nama_hama%";
+    $stmt->bind_param("ss", $search, $jenis_tips);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    if ($row) {
+        $id_jaga = $row['id_jaga'];
+        $penangkal = $row['penangkal'];
+    } else {
+        $penangkal = "Tidak ada penangkal ditemukan untuk kombinasi ini.";
+    }
+
+    // if (!$stmt->fetch()) {
+    //     $penangkal = "Data penangkal belum tersedia untuk kombinasi ini.";
+    // }
+
+    $stmt->close();
+}
+
+// Proses simpan ke tabel penjagaan
+if (isset($_POST['simpan'])) {
+    $id_jaga = $_POST['id_jaga'];
+    $user_id = $_SESSION['userweb']['id_user'];
+    $nama_hama = $_POST['nama_hama'];
+    $jenis_tips = $_POST['jenis_tips'];
+    $penangkal = $_POST['penangkal'];
+
+    $insert = "INSERT INTO penjagaan (id_user, id_jaga, nama_hama, jenis_tips, penangkal) VALUES (?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($insert);
+    $stmt->bind_param("iisss", $user_id, $id_jaga, $nama_hama, $jenis_tips, $penangkal);
+
+    if ($stmt->execute()) {
+        echo "<script>alert('Berhasil disimpan.');</script>";
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+
+    $stmt->close();
+}
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>penjagaan</title>
+    <title>Penjagaan</title>
     <style>
         html {
             scrollbar-width: smooth;
@@ -182,93 +240,61 @@
         resize: vertical;      
         box-sizing: border-box;
         }
+        .logout-btn {
+        margin-left: auto;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        padding: 5px 10px;
+        background-color:rgb(204, 204, 2);
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        }
+
+        .logout-btn:hover {
+        background-color:rgb(171, 154, 4);
+        }
     </style>
 </head>
 <body>
-    <section class home>
-            <div class="navbar">
-                <label class="logo"><a href="">FARMBOT</a></label>
-                <ul>
-                    <li><a href="farmbot.php#content">Home</a></li>
-                    <li>
-                        <a href="#">About</a>
-                        <ul class="dropdown">
-                            <li><a href="farmbot.php#about-web">About web</a></li>
-                            <li><a href="farmbot.php#about-me">About me</a></li>
-                            <li><a href="farmbot.php#visi-misi">VisiMisi</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="produktivitas.php">Produktivitas</a></li>
-                    <li><a href="perawatan.php">Perawatan</a></li>
-                    <li><a href="#penjagaan">Penjagaan</a></li>
-                    <li><a href="farmbot.php#informasi">Informasi</a></li>
-                </ul>
+    <div class="navbar">
+        <label class="logo"><a href="#">FARMBOT</a></label>
+        <ul>
+            <li><a href="farmbot.php#content">Home</a></li>
+            <li><a href="produktivitas.php">Produktivitas</a></li>
+            <li><a href="perawatan.php">Perawatan</a></li>
+            <li><a href="#penjagaan">Penjagaan</a></li>
+            <li><a href="farmbot.php#informasi">Informasi</a></li>
+            <a href="../login/logout.php" class="logout-btn">Logout</a>
+            <a href="../login/edit.php" class="logout-btn">Edit</a>
+        </ul>
+    </div>
+
+    <section id="penjagaan">
+        <h2>Simulasi Budidaya Tanaman</h2>
+        <form action="penjagaan.php" method="POST">
+            <input type="hidden" name="id_jaga" id="id_jaga" value="<?= $id_jaga ?>">
+            <label for="nama_hama">Hama:</label><br>
+            <input type="text" name="nama_hama" id="nama_hama" value="<?= htmlspecialchars($nama_hama) ?>" required><br><br>
+
+            <label for="jenis_tips">Jenis Tips:</label><br>
+            <select name="jenis_tips" id="jenis_tips" required>
+                <option value="">Pilih Jenis Tips</option>
+                <option value="Pencegahan" <?= ($jenis_tips == 'Pencegahan') ? 'selected' : '' ?>>Pencegahan</option>
+                <option value="Penanganan" <?= ($jenis_tips == 'Penanganan') ? 'selected' : '' ?>>Penanganan</option>
+            </select>
+                <button type="submit" name="cari"><span></span>Cari</button><br>
+            <label for="penangkal">Penangkal:</label><br>
+            <textarea name="penangkal" rows="6" class="input-deskripsi" readonly><?= htmlspecialchars($penangkal) ?></textarea>
+
+            <div class="button-row">
+                <a href="penjagaan.php"><button type="button"><span></span>Refresh</a></button>
+                <button type="submit" name="simpan"><span></span>Simpan</button>
             </div>
-    </section> 
-    <section id="penjagaan" class="jaga">
-    <?php
-    include '../database/config.php';
-
-    $nama_hama = '';
-    $jenis_tips = '';
-    $penangkal = '';
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $nama_hama = $_POST['nama_hama'] ?? '';
-        $jenis_tips = $_POST['jenis_tips'] ?? '';
-
-        $sql = "SELECT penangkal FROM jaga WHERE nama_hama LIKE ? AND jenis_tips = ? LIMIT 1";
-        $stmt = $conn->prepare($sql);
-
-        // Gunakan LIKE untuk fleksibilitas input nama_hama
-        $search = "%$nama_hama%";
-        $stmt->bind_param("ss", $search, $jenis_tips);
-        $stmt->execute();
-        $stmt->bind_result($penangkal);
-
-        if (!$stmt->fetch()) {
-            $penangkal = "Data penangkal belum tersedia untuk kombinasi ini.";
-        }
-
-        $stmt->close();
-    }
-     if (isset($_POST['simpan'])) {
-        $nama_hama = $_POST['nama_hama'];
-        $jenis_tips = $_POST['jenis_tips'];
-        $penangkal = $_POST['penangkal'];
-
-        $insert = "INSERT INTO penjagaan (nama_hama, jenis_tips, penangkal) 
-        VALUES ('$nama_hama', '$jenis_tips', '$penangkal')";
-        if ($conn->query($insert) === TRUE) {
-                    echo "<script>alert('Berhasil Disimpan')</script>";
-                } else {
-                    echo "Error: " . $sql . "<br>" . $conn->error; 
-                }
-    }
-    $conn->close();
-    ?>
-
-    <section>
-        <div id="penjagaan" >
-            <h2>Simulasi Budidaya Tanaman</h2>
-                <form  action="./penjagaan.php" method="POST">
-                    <label>Hama:</label><br>
-                    <input type="text" name="nama_hama" value="<?= htmlspecialchars($nama_hama) ?>" required><br><br>
-                    <label>Jenis Tips:</label><br>
-                    <select name="jenis_tips" required>
-                        <option value="">Pilih Jenis Tips</option>
-                        <option value="Pencegahan" <?= ($jenis_tips == 'Pencegahan') ? 'selected' : '' ?>>Pencegahan</option>
-                        <option value="Penanganan" <?= ($jenis_tips == 'Penanganan') ? 'selected' : '' ?>>Penanganan</option>
-                    </select>
-                    <button type="submit"><span></span>Cari</button><br><br>
-                    <label>Penangkal:</label><br>
-                    <textarea name="penangkal" rows="6" cols="50" class="input-deskripsi" readonly><?= htmlspecialchars($penangkal) ?></textarea><br><br>
-                    <div class="button-row">
-                        <a href="penjagaan.php"><button type="button"><span></span>Refresh</a></button>
-                        <button type="submit" name="simpan" id="save"><span></span>Simpan</button>
-                    </div>
-                </form>
-        </div>
+            <section>
+        </form>
+    </section>
+        </form>
     </section>
 </body>
 </html>

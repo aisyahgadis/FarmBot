@@ -82,7 +82,7 @@ include 'config.php';
     <a href="../tampilan/tadmin.php">Masuk Website</a>
     <table>
         <tr>
-            <th>Id</th>
+            <th>Id_jaga</th>
             <th>nama hama</th>
             <th>jenis tips</th>
             <th>Penangkal</th>
@@ -96,13 +96,13 @@ include 'config.php';
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 echo "<tr>
-                    <td>{$row['id']}</td>
+                    <td>{$row['id_jaga']}</td>
                     <td>{$row['nama_hama']}</td>
                     <td>{$row['jenis_tips']}</td>
                     <td>{$row['penangkal']}</td>
                     <td>
-                        <a href='../login/jejadmin.php?id={$row['id']}'>Edit</a> |
-                        <a href='../login/dtadmin.php?id={$row['id']}' onclick='return confirm(\"Hapus Data ini?\")'>Hapus</a>
+                        <a href='../login/jejadmin.php?id={$row['id_jaga']}'>Edit</a> |
+                        <a href='../login/dtadmin.php?id={$row['id_jaga']}' onclick='return confirm(\"Hapus Data ini?\")'>Hapus</a>
                     </td>
                 </tr>";
             }

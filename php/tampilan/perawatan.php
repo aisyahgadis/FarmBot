@@ -1,9 +1,64 @@
+<?php
+    session_start();
+    include '../database/config.php';
+
+    //jika user belum login dan menuju halaman lain
+    if (!isset($_SESSION['id_user'])) {
+        echo '
+        <script>
+            alert("Silakan login terlebih dahulu.");
+            window.location.href = "user.php";
+        </script>';
+        exit;
+    }
+    $nama_tanaman = '';
+    $cara_perawatan = '';
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $nama_tanaman = $_POST['nama_tanaman'] ?? '';
+
+        // Cari cara perawatan dari database berdasarkan nama tanaman yang diinput
+        $sql = "SELECT cara_perawatan FROM rawat WHERE nama_tanaman LIKE ? LIMIT 1";
+        $stmt = $conn->prepare($sql);
+
+        // Tambahkan wildcard % untuk LIKE
+        $search = "%$nama_tanaman%";
+
+        $stmt->bind_param("s", $search);
+        $stmt->execute();
+        $stmt->bind_result($cara_perawatan);
+        
+        if ($stmt->fetch()) {
+            // $cara_perawatan terisi dari database
+        } else {
+            $cara_perawatan = "Cara perawatan belum tersedia untuk tanaman ini.";
+        }
+        $stmt->close();
+    }
+    if (isset($_POST['simpan'])) {
+        $user_id = $_SESSION['userweb']['id_user'];
+        $nama_tanaman = $_POST['nama_tanaman'];
+        $cara_perawatan = $_POST['cara_perawatan'];
+
+        $insert = "INSERT INTO perawatan (id_user, nama_tanaman, cara_perawatan)  VALUES (?, ?, ?)";
+        $stmt = $conn->prepare($insert);
+        $stmt->bind_param("iss", $user_id, $nama_tanaman, $cara_perawatan);
+        if ($stmt->execute()) {
+        echo "<script>alert('Berhasil disimpan.');</script>";
+        } else {
+            echo "Error: " . $stmt->error;
+        }
+          $stmt->close();
+    }
+
+    $conn->close();
+    ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <title>Simulasi Budidaya Tanaman</title>
-        <style>
+    <style>
         html {
             scrollbar-width: smooth;
         }
@@ -233,6 +288,20 @@
         resize: vertical;      
         box-sizing: border-box;
         }
+        .logout-btn {
+        margin-left: auto;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        padding: 5px 10px;
+        background-color:rgb(204, 204, 2);
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        }
+
+        .logout-btn:hover {
+        background-color:rgb(171, 154, 4);
+        }
     </style>
 </head>
 <body>
@@ -241,63 +310,16 @@
                 <label class="logo"><a href="">FARMBOT</a></label>
                 <ul>
                     <li><a href="farmbot.php#content">Home</a></li>
-                    <li>
-                        <a href="#">About</a>
-                        <ul class="dropdown">
-                            <li><a href="farmbot.php#about-web">About web</a></li>
-                            <li><a href="farmbot.php#about-me">About me</a></li>
-                            <li><a href="farmbot.php#visi-misi">VisiMisi</a></li>
-                        </ul>
-                    </li>
                     <li><a href="produktivitas.php">Produktivitas</a></li>
                     <li><a href="#perawatan">Perawatan</a></li>
                     <li><a href="penjagaan.php">Penjagaan</a></li>
                     <li><a href="farmbot.php#informasi">Informasi</a></li>
+                    <a href="../login/logout.php" class="logout-btn">Logout</a>
+                    <a href="../login/edit.php" class="logout-btn">Edit</a>
                 </ul>
             </div>
         </section> 
     <section id="perawatan" class="icer">
-    <?php
-    include '../database/config.php';
-
-    $nama_tanaman = '';
-    $cara_perawatan = '';
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $nama_tanaman = $_POST['nama_tanaman'] ?? '';
-
-        // Cari cara perawatan dari database berdasarkan nama tanaman yang diinput
-        $sql = "SELECT cara_perawatan FROM rawat WHERE nama_tanaman LIKE ? LIMIT 1";
-        $stmt = $conn->prepare($sql);
-
-        // Tambahkan wildcard % untuk LIKE
-        $search = "%$nama_tanaman%";
-
-        $stmt->bind_param("s", $search);
-        $stmt->execute();
-        $stmt->bind_result($cara_perawatan);
-        
-        if ($stmt->fetch()) {
-            // $cara_perawatan terisi dari database
-        } else {
-            $cara_perawatan = "Cara perawatan belum tersedia untuk tanaman ini.";
-        }
-        $stmt->close();
-    }
-    if (isset($_POST['simpan'])) {
-        $nama_tanaman = $_POST['nama_tanaman'];
-        $cara_perawatan = $_POST['cara_perawatan'];
-
-        $insert = "INSERT INTO perawatan (nama_tanaman, cara_perawatan) 
-        VALUES ('$nama_tanaman', '$cara_perawatan')";
-        if ($conn->query($insert) === TRUE) {
-                    echo "<script>alert('Berhasil Disimpan')</script>";
-                } else {
-                    echo "Error: " . $sql . "<br>" . $conn->error; 
-                }
-    }
-    $conn->close();
-    ?>
     <section>
         <div id="perawatan" >
             <h2>Simulasi Budidaya Tanaman</h2>

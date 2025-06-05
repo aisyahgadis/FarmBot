@@ -84,6 +84,7 @@ include 'config.php';
         <tr>
             <th>Id penjagaan</th>
             <th>id user</th>
+            <th>id jaga</th>
             <th>nama hama</th>
             <th>jenis tips</th>
             <th>Penangkal</th>
@@ -93,12 +94,22 @@ include 'config.php';
         <?php
         $sql = "SELECT * FROM penjagaan";
         $result = $conn->query($sql);
+    
+        // hasil query sebelumnya
+        $row = mysqli_fetch_assoc($result);
+        $id_jaga = $row['id_jaga'];
+        $id_user = $row['id_user'];
+
+        $query = "SELECT id_jaga, id_user 
+          FROM penjagaan 
+          WHERE id_jaga = '$id_jaga' AND id_user = '$id_user'";
 
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 echo "<tr>
                     <td>{$row['id_penjagaan']}</td>
                     <td>{$row['id_user']}</td>
+                    <td>{$row['id_jaga']}</td>
                     <td>{$row['nama_hama']}</td>
                     <td>{$row['jenis_tips']}</td>
                     <td>{$row['penangkal']}</td>
@@ -109,7 +120,7 @@ include 'config.php';
                 </tr>";
             }
         } else {
-            echo "<tr><td colspan='6'>Tidak ada data</td></tr>";
+            echo "<tr><td colspan='7'>Tidak ada data</td></tr>";
         }
         $conn->close();
         ?>
